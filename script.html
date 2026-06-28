@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COR Schedule Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body class="theme-dark">
+
+<header>
+  <!-- calendar icon -->
+  <svg class="header-logo" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="38" height="38" rx="9" fill="var(--accent)" opacity=".18"/>
+    <rect x="7" y="10" width="24" height="21" rx="3" stroke="var(--accent2)" stroke-width="2" fill="none"/>
+    <line x1="7" y1="17" x2="31" y2="17" stroke="var(--accent2)" stroke-width="2"/>
+    <line x1="14" y1="7" x2="14" y2="13" stroke="var(--accent2)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="24" y1="7" x2="24" y2="13" stroke="var(--accent2)" stroke-width="2" stroke-linecap="round"/>
+    <rect x="11" y="21" width="4" height="3" rx="1" fill="var(--accent2)"/>
+    <rect x="17" y="21" width="4" height="3" rx="1" fill="var(--accent2)"/>
+    <rect x="23" y="21" width="4" height="3" rx="1" fill="var(--accent2)"/>
+  </svg>
+  <div>
+    <h1>COR Schedule Generator</h1>
+    <p>Upload your Certificate of Registration to auto-generate your weekly schedule [Laurence Hayz]</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- THEME PICKER -->
+  <div class="theme-picker-wrap" id="themePickerWrap">
+    <div class="step-label">
+      <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="var(--accent)"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.5" fill="none"/><text x="8" y="12" text-anchor="middle" font-size="9" font-weight="700" fill="var(--accent)">1</text></svg>
+      Choose a theme
+    </div>
+    <div class="theme-options">
+
+      <!-- Hello Kitty -->
+      <div class="theme-btn" data-theme="kitty" onclick="setTheme('kitty',this)">
+        <div class="theme-swatch">
+          <!-- stylized white-cat-with-bow icon -->
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" fill="#d63870"/>
+            <!-- ears -->
+            <path d="M9 14 Q7 6 16 9 Z" fill="#fff"/>
+            <path d="M31 14 Q33 6 24 9 Z" fill="#fff"/>
+            <!-- head -->
+            <ellipse cx="20" cy="22" rx="14" ry="12.5" fill="#fff"/>
+            <!-- bow -->
+            <path d="M9 9 L15 6.5 L15 11.5 Z" fill="#ffffff"/>
+            <path d="M21 9 L15 6.5 L15 11.5 Z" fill="#f4b8cc"/>
+            <circle cx="15" cy="9" r="2" fill="#e8799a"/>
+            <!-- eyes -->
+            <ellipse cx="14.5" cy="22" rx="1.7" ry="2" fill="#2a2a2a"/>
+            <ellipse cx="25.5" cy="22" rx="1.7" ry="2" fill="#2a2a2a"/>
+            <!-- nose -->
+            <ellipse cx="20" cy="25.5" rx="1.5" ry="1.1" fill="#e8799a"/>
+            <!-- whiskers, 3 per side -->
+            <line x1="3" y1="21" x2="12" y2="22" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="3" y1="24" x2="12" y2="24.5" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="3" y1="27" x2="12" y2="26.5" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="28" y1="22" x2="37" y2="21" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="28" y1="24.5" x2="37" y2="24" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="28" y1="26.5" x2="37" y2="27" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="theme-label">Hello Kitty</span>
+      </div>
+
+      <!-- Ocean Blue -->
+      <div class="theme-btn" data-theme="blue" onclick="setTheme('blue',this)">
+        <div class="theme-swatch">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" fill="#0a1828"/>
+            <!-- waves -->
+            <path d="M0 28 Q5 24 10 28 Q15 32 20 28 Q25 24 30 28 Q35 32 40 28 L40 40 L0 40Z" fill="#1a4080"/>
+            <path d="M0 33 Q5 29 10 33 Q15 37 20 33 Q25 29 30 33 Q35 37 40 33 L40 40 L0 40Z" fill="#2060b0"/>
+            <!-- moon/sun reflection -->
+            <circle cx="20" cy="14" r="7" fill="#5eb8ff" opacity=".9"/>
+            <circle cx="20" cy="14" r="5" fill="#a0d8ff"/>
+            <!-- stars -->
+            <circle cx="8" cy="8" r="1.2" fill="#fff"/>
+            <circle cx="33" cy="6" r="1" fill="#fff"/>
+            <circle cx="36" cy="14" r=".8" fill="#fff"/>
+            <circle cx="4" cy="18" r=".7" fill="#fff"/>
+          </svg>
+        </div>
+        <span class="theme-label">Ocean Blue</span>
+      </div>
+
+      <!-- Forest -->
+      <div class="theme-btn" data-theme="forest" onclick="setTheme('forest',this)">
+        <div class="theme-swatch">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" fill="#081410"/>
+            <!-- ground -->
+            <rect y="30" width="40" height="10" fill="#0f2018"/>
+            <!-- trees -->
+            <polygon points="8,28 14,10 20,28" fill="#1a5c28"/>
+            <polygon points="5,28 14,14 23,28" fill="#22782e"/>
+            <polygon points="20,28 27,12 34,28" fill="#1a5c28"/>
+            <polygon points="17,28 27,16 37,28" fill="#22782e"/>
+            <!-- trunk -->
+            <rect x="13" y="27" width="3" height="4" fill="#3a2010"/>
+            <rect x="26" y="27" width="3" height="4" fill="#3a2010"/>
+            <!-- stars -->
+            <circle cx="6" cy="6" r="1" fill="#7dd898"/>
+            <circle cx="20" cy="4" r=".8" fill="#7dd898"/>
+            <circle cx="34" cy="8" r="1" fill="#7dd898"/>
+          </svg>
+        </div>
+        <span class="theme-label">Forest</span>
+      </div>
+
+      <!-- Sunset -->
+      <div class="theme-btn" data-theme="sunset" onclick="setTheme('sunset',this)">
+        <div class="theme-swatch">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0a0400"/>
+                <stop offset="60%" stop-color="#8b2800"/>
+                <stop offset="100%" stop-color="#cc5500"/>
+              </linearGradient>
+            </defs>
+            <rect width="40" height="40" fill="url(#sg)"/>
+            <!-- sun -->
+            <circle cx="20" cy="26" r="8" fill="#e87830"/>
+            <circle cx="20" cy="26" r="6" fill="#f0b040"/>
+            <!-- rays -->
+            <line x1="20" y1="10" x2="20" y2="14" stroke="#f0b040" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="8" y1="16" x2="11" y2="18" stroke="#f0b040" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="16" x2="29" y2="18" stroke="#f0b040" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- horizon -->
+            <rect y="32" width="40" height="8" fill="#180c00"/>
+            <line x1="0" y1="32" x2="40" y2="32" stroke="#e87830" stroke-width="1"/>
+          </svg>
+        </div>
+        <span class="theme-label">Sunset</span>
+      </div>
+
+      <!-- Lavender -->
+      <div class="theme-btn" data-theme="lavender" onclick="setTheme('lavender',this)">
+        <div class="theme-swatch">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" fill="#0e0820"/>
+            <!-- galaxy swirl -->
+            <circle cx="20" cy="20" r="12" fill="#180d30" opacity=".9"/>
+            <ellipse cx="20" cy="20" rx="10" ry="6" fill="none" stroke="#6040c0" stroke-width="1.5" opacity=".7" transform="rotate(-30 20 20)"/>
+            <ellipse cx="20" cy="20" rx="7" ry="4" fill="none" stroke="#8060e0" stroke-width="1" opacity=".8" transform="rotate(-30 20 20)"/>
+            <circle cx="20" cy="20" r="3" fill="#a07cff"/>
+            <!-- stars -->
+            <circle cx="5" cy="5" r="1" fill="#c0a0ff"/>
+            <circle cx="35" cy="8" r=".8" fill="#c0a0ff"/>
+            <circle cx="10" cy="32" r=".7" fill="#a080e0"/>
+            <circle cx="33" cy="30" r="1" fill="#c0a0ff"/>
+            <circle cx="28" cy="4" r=".6" fill="#e0c0ff"/>
+            <circle cx="4" cy="22" r=".5" fill="#e0c0ff"/>
+          </svg>
+        </div>
+        <span class="theme-label">Lavender</span>
+      </div>
+
+      <!-- Dark Mode -->
+      <div class="theme-btn active" data-theme="dark" onclick="setTheme('dark',this)">
+        <div class="theme-swatch">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" fill="#090c14"/>
+            <!-- moon -->
+            <path d="M26 20 A10 10 0 1 1 14 14 A7 7 0 0 0 26 20Z" fill="#8898ff"/>
+            <!-- stars -->
+            <circle cx="32" cy="8" r="1.2" fill="#fff"/>
+            <circle cx="7" cy="12" r=".8" fill="#fff"/>
+            <circle cx="35" cy="25" r=".7" fill="#ccd0ff"/>
+            <circle cx="10" cy="30" r="1" fill="#ccd0ff"/>
+            <circle cx="28" cy="34" r=".6" fill="#fff"/>
+          </svg>
+        </div>
+        <span class="theme-label">Dark Mode</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="step-label" style="margin-bottom:8px">
+    <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="var(--accent)"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.5" fill="none"/><text x="8" y="12" text-anchor="middle" font-size="9" font-weight="700" fill="var(--accent)">2</text></svg>
+    Upload your COR
+  </div>
+
+  <div class="upload-zone" id="uploadZone">
+    <input type="file" id="fileInput" accept="image/*,.pdf" />
+    <div class="upload-icon">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <rect width="44" height="44" rx="12" fill="var(--surface2)"/>
+        <path d="M22 14v12M16 20l6-6 6 6" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M13 30h18" stroke="var(--accent2)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2>Upload your COR</h2>
+    <p>Drag and drop or click to browse your Certificate of Registration</p>
+    <div class="file-types">
+      <span class="badge">JPG</span><span class="badge">PNG</span>
+      <span class="badge">PDF</span><span class="badge">WEBP</span>
+    </div>
+  </div>
+
+  <div class="processing" id="processingBox">
+    <div class="spinner"></div>
+    <h3>Reading your COR...</h3>
+    <p>Extracting subjects and schedule information</p>
+  </div>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- STUDENT INFO -->
+  <div class="student-info" id="studentInfo">
+    <div class="info-item"><span class="info-label">Student</span><span class="info-value" id="siName">—</span></div>
+    <div class="info-item"><span class="info-label">ID No.</span><span class="info-value" id="siId">—</span></div>
+    <div class="info-item"><span class="info-label">Course / Year</span><span class="info-value" id="siCourse">—</span></div>
+    <div class="info-item"><span class="info-label">Period</span><span class="info-value" id="siPeriod">—</span></div>
+    <div style="margin-left:auto;display:flex;gap:8px;">
+      <button class="btn btn-outline" onclick="reset()">
+        <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 9A6 6 0 1 1 5 4.5"/></svg>
+        Upload another
+      </button>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="schedule-section" id="scheduleSection">
+    <div class="schedule-toolbar">
+      <h2>Weekly Schedule</h2>
+      <div>
+        <button class="btn btn-dl" id="downloadBtn" onclick="downloadPNG()">
+          <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M2 13h12"/></svg>
+          Download PNG
+        </button>
+      </div>
+    </div>
+
+    <div id="captureArea">
+      <div class="capture-header">
+        <div class="capture-title" id="captureName"></div>
+        <div class="capture-sub" id="capturePeriod"></div>
+      </div>
+      <div class="grid-wrapper">
+        <div class="schedule-grid" id="scheduleGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBJECT LIST -->
+  <div class="subject-list-section" id="subjectListSection">
+    <h3>Enrolled Subjects</h3>
+    <div class="subject-cards" id="subjectCards"></div>
+  </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
