@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
 </head>
 <body class="theme-dark">
 
@@ -41,31 +40,30 @@
 
       <!-- Hello Kitty -->
       <div class="theme-btn" data-theme="kitty" onclick="setTheme('kitty',this)">
-        <div class="theme-swatch">
-          <!-- stylized white-cat-with-bow icon -->
+        <div class="theme-swatch" style="background:#2a0f1d">
           <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <rect width="40" height="40" fill="#d63870"/>
+            <rect width="40" height="40" fill="#2a0f1d"/>
             <!-- ears -->
-            <path d="M9 14 Q7 6 16 9 Z" fill="#fff"/>
-            <path d="M31 14 Q33 6 24 9 Z" fill="#fff"/>
+            <path d="M8 15 Q5 6 15 9.5 Z" fill="#ffe1ec" stroke="#ff7aa8" stroke-width="1"/>
+            <path d="M32 15 Q35 6 25 9.5 Z" fill="#ffe1ec" stroke="#ff7aa8" stroke-width="1"/>
             <!-- head -->
-            <ellipse cx="20" cy="22" rx="14" ry="12.5" fill="#fff"/>
+            <ellipse cx="20" cy="23" rx="14.5" ry="13" fill="#ffe1ec" stroke="#ff7aa8" stroke-width="1"/>
             <!-- bow -->
-            <path d="M9 9 L15 6.5 L15 11.5 Z" fill="#ffffff"/>
-            <path d="M21 9 L15 6.5 L15 11.5 Z" fill="#f4b8cc"/>
-            <circle cx="15" cy="9" r="2" fill="#e8799a"/>
+            <path d="M9 9 L15.5 6 L15.5 12 Z" fill="#ff5c8d"/>
+            <path d="M22 9 L15.5 6 L15.5 12 Z" fill="#e8447a"/>
+            <circle cx="15.5" cy="9" r="2.1" fill="#ffe1ec"/>
             <!-- eyes -->
-            <ellipse cx="14.5" cy="22" rx="1.7" ry="2" fill="#2a2a2a"/>
-            <ellipse cx="25.5" cy="22" rx="1.7" ry="2" fill="#2a2a2a"/>
+            <ellipse cx="14" cy="23" rx="1.8" ry="2.1" fill="#2a2a2a"/>
+            <ellipse cx="26" cy="23" rx="1.8" ry="2.1" fill="#2a2a2a"/>
             <!-- nose -->
-            <ellipse cx="20" cy="25.5" rx="1.5" ry="1.1" fill="#e8799a"/>
-            <!-- whiskers, 3 per side -->
-            <line x1="3" y1="21" x2="12" y2="22" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
-            <line x1="3" y1="24" x2="12" y2="24.5" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
-            <line x1="3" y1="27" x2="12" y2="26.5" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
-            <line x1="28" y1="22" x2="37" y2="21" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
-            <line x1="28" y1="24.5" x2="37" y2="24" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
-            <line x1="28" y1="26.5" x2="37" y2="27" stroke="#c9c9c9" stroke-width=".8" stroke-linecap="round"/>
+            <ellipse cx="20" cy="27" rx="1.6" ry="1.1" fill="#ff5c8d"/>
+            <!-- whiskers -->
+            <line x1="2" y1="22" x2="11" y2="23" stroke="#999" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="2" y1="25" x2="11" y2="25.5" stroke="#999" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="2" y1="28" x2="11" y2="27.5" stroke="#999" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="29" y1="23" x2="38" y2="22" stroke="#999" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="29" y1="25.5" x2="38" y2="25" stroke="#999" stroke-width=".8" stroke-linecap="round"/>
+            <line x1="29" y1="27.5" x2="38" y2="28" stroke="#999" stroke-width=".8" stroke-linecap="round"/>
           </svg>
         </div>
         <span class="theme-label">Hello Kitty</span>
@@ -186,10 +184,26 @@
     </div>
   </div>
 
-  <!-- UPLOAD -->
+  <!-- SOURCE TYPE -->
   <div class="step-label" style="margin-bottom:8px">
     <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="var(--accent)"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.5" fill="none"/><text x="8" y="12" text-anchor="middle" font-size="9" font-weight="700" fill="var(--accent)">2</text></svg>
-    Upload your COR
+    What are you uploading?
+  </div>
+  <div class="source-toggle">
+    <div class="source-tab active" data-source="cor" onclick="setSourceType('cor', this)">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="1.5" width="12" height="13" rx="1.2"/><line x1="4.5" y1="5" x2="11.5" y2="5"/><line x1="4.5" y1="7.5" x2="11.5" y2="7.5"/><line x1="4.5" y1="10" x2="9" y2="10"/></svg>
+      Certificate of Registration
+    </div>
+    <div class="source-tab" data-source="grid" onclick="setSourceType('grid', this)">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="2" width="13" height="12" rx="1"/><line x1="1.5" y1="6" x2="14.5" y2="6"/><line x1="6" y1="6" x2="6" y2="14"/><line x1="10" y1="6" x2="10" y2="14"/></svg>
+      Class Schedule Grid
+    </div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="step-label" style="margin-bottom:8px">
+    <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="var(--accent)"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.5" fill="none"/><text x="8" y="12" text-anchor="middle" font-size="9" font-weight="700" fill="var(--accent)">3</text></svg>
+    Upload your file
   </div>
 
   <div class="upload-zone" id="uploadZone">
@@ -201,8 +215,8 @@
         <path d="M13 30h18" stroke="var(--accent2)" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </div>
-    <h2>Upload your COR</h2>
-    <p>Drag and drop or click to browse your Certificate of Registration</p>
+    <h2>Upload your file</h2>
+    <p>Drag and drop or click to browse — works with a COR or a class schedule grid</p>
     <div class="file-types">
       <span class="badge">JPG</span><span class="badge">PNG</span>
       <span class="badge">PDF</span><span class="badge">WEBP</span>
@@ -235,7 +249,11 @@
   <div class="schedule-section" id="scheduleSection">
     <div class="schedule-toolbar">
       <h2>Weekly Schedule</h2>
-      <div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline" id="editBtn" onclick="toggleEdit()">
+          <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l3 3-8 8H3v-3z"/></svg>
+          Edit
+        </button>
         <button class="btn btn-dl" id="downloadBtn" onclick="downloadPNG()">
           <svg class="icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M2 13h12"/></svg>
           Download PNG
@@ -262,7 +280,23 @@
 
 </main>
 
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13"/><circle cx="12" cy="16.3" r="0.9" fill="var(--accent)" stroke="none"/></svg>
+    </div>
+    <h3>Double-check before downloading</h3>
+    <p>Please double check if the time and day in your COR and Schedule is accurate. AI extraction can occasionally misread times (e.g. "2&ndash;3:30" shorthand) or days, so review each block above before saving.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeConfirmModal()">Go back and review</button>
+      <button class="btn btn-dl" onclick="confirmAndDownload()">It's accurate, download</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="app.js"></script>
+
+
 </body>
 </html>
