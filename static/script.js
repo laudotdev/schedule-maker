@@ -1,4 +1,4 @@
-const API_URL = "/api/schedule";
+const API_URL = "https://schedule-maker-pvbr.onrender.com";
 const DAY_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const form = document.getElementById("upload-form");
