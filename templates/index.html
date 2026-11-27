@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff3f8">
+    <title>SKED</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{url_for('static', filename="sked_icon.png")}}" type="image/x-icon">
+    <script src="{{ url_for('static', filename='vendor/html2canvas.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='vendor/jspdf.umd.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script.js', v='schedule-editor-2') }}" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="upload-panel" aria-labelledby="page-title">
+        <div class="upload-heading">
+          <div class="intro">
+            <p class="eyebrow">Your week, at a glance</p>
+            <h1 id="page-title">SKED, at your service</h1>
+            <p class="subtitle">Upload a Certificate of Registration to build your weekly class schedule.</p>
+          </div>
+          <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+            <span id="theme-icon" aria-hidden="true">☾</span>
+            <span id="theme-label">Nakasilaw</span>
+          </button>
+        </div>
+        <form id="upload-form" class="upload-form" novalidate>
+          <label class="file-picker" for="file">
+            <span class="file-icon" aria-hidden="true">↥</span>
+            <span class="file-picker-copy">
+              <span class="file-picker-label">Choose a COR file</span>
+              <span class="file-picker-hint">PNG, JPG, or PDF · up to 10 MB</span>
+              <span id="selected-file-name" class="selected-file-name" aria-live="polite">No file selected</span>
+            </span>
+            <input type="file" id="file" name="file" accept=".png,.jpg,.jpeg,.pdf" required>
+          </label>
+          <button type="submit" id="submit-btn">I-covert na 'yan</button>
+        </form>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <div id="alerts" class="alerts" aria-live="polite"></div>
+
+      <section id="result" class="result hidden" aria-label="Generated schedule">
+        <div id="schedule-capture" class="schedule-sheet">
+          <header class="schedule-heading">
+            <h2 id="student"></h2>
+            <p id="term"></p>
+          </header>
+
+          <div id="schedule" class="schedule-grid" aria-label="Weekly class schedule" data-no-class-icon="{{ url_for('static', filename='sad_happy.png') }}"></div>
+        </div>
+
+        <div id="download-toolbar" class="download-toolbar hidden">
+          <button type="button" id="edit-schedule-button" class="secondary-button">Hala may mali?</button>
+          <button type="button" id="cancel-edit-button" class="secondary-button hidden">Cancel</button>
+          <button type="button" id="open-download-dialog" class="download-button">
+            <span aria-hidden="true">↓</span> Download
+          </button>
+        </div>
+
+        <details class="subjects-panel">
+          <summary>Subjects found <span id="subject-count"></span></summary>
+          <ul class="subjects" id="subjects"></ul>
+        </details>
+      </section>
+
+      <dialog id="download-dialog" class="download-dialog" aria-labelledby="download-title">
+        <form id="download-form">
+          <div class="dialog-heading">
+            <div>
+              <p class="eyebrow">Save your schedule</p>
+              <h2 id="download-title">Choose a format</h2>
+            </div>
+            <button type="button" id="close-download-dialog" class="icon-button" aria-label="Close format picker">×</button>
+          </div>
+
+          <fieldset class="format-options">
+            <legend>File type</legend>
+            <label class="format-option">
+              <input type="radio" name="export-format" value="png" checked>
+              <span class="format-extension">PNG</span>
+              <span class="format-description">Best for sharing a clear image</span>
+            </label>
+            <label class="format-option">
+              <input type="radio" name="export-format" value="jpg">
+              <span class="format-extension">JPG</span>
+              <span class="format-description">Smaller image file</span>
+            </label>
+            <label class="format-option">
+              <input type="radio" name="export-format" value="pdf">
+              <span class="format-extension">PDF</span>
+              <span class="format-description">A document-sized schedule</span>
+            </label>
+          </fieldset>
+
+          <div class="dialog-actions">
+            <button type="button" id="cancel-download" class="secondary-button">Cancel</button>
+            <button type="submit" id="confirm-download">Download</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog id="terms-dialog" class="terms-dialog" aria-labelledby="terms-title">
+        <form id="terms-form">
+          <div class="dialog-heading">
+            <div>
+              <p class="eyebrow">Before you continue</p>
+              <h2 id="terms-title">Terms and privacy</h2>
+            </div>
+            <button type="button" id="close-terms" class="icon-button" aria-label="Close terms">×</button>
+          </div>
+
+          <div class="terms-content">
+            <h3>Using this schedule maker</h3>
+            <p>Schedule details are read automatically from your COR and may be incomplete or incorrect. Check the generated schedule against your official registration.</p>
+            <h3>Your document</h3>
+            <p>This open-source project has no database <a href="https://github.com/laudotdev/schedule-maker">view source code</a>. Your uploaded COR is processed by this app to create the schedule, and the temporary upload is deleted after processing. The app does not send it to an external service.</p>
+            <h3>Privacy</h3>
+            <p>Your generated schedule stays in this browser page. Your theme preference may be saved in this browser's local storage.</p>
+          </div>
+
+          <label class="consent-check">
+            <input type="checkbox" id="terms-checkbox">
+            <span>I have read and accept the terms and privacy information.</span>
+          </label>
+
+          <div class="dialog-actions">
+            <button type="button" id="close-terms-secondary" class="secondary-button">Close</button>
+            <button type="submit" id="accept-terms" disabled>Accept and continue</button>
+          </div>
+        </form>
+      </dialog>
+
+      <footer class="site-footer">
+        <div class="footer-credit">
+          <p>Proper credit: President Ramon Magsaysay State University (PRMSU) for its Certificate of Registration.</p>
+          <p class="copyright">© 2026 SKED.</p>
+        </div>
+        <a class="portfolio-button" href="https://laurence.laupyde.online" target="_blank" rel="noopener noreferrer">
+          Who am i? <span aria-hidden="true">↗</span>
+        </a>
+      </footer>
+    </main>
+  </body>
+</html>
