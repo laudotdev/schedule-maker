@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@vercel/config": "^0.7.2"
+  }
+}

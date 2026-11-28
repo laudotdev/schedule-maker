@@ -1,14 +1,10 @@
-const backendUrl = process.env.BACKEND_URL?.replace(/\/+$/, "");
-
-if (!backendUrl) {
-  throw new Error("Set BACKEND_URL in the Vercel project environment variables.");
-}
+import { deploymentEnv, routes } from "@vercel/config/v1";
 
 export const config = {
   rewrites: [
-    {
-      source: "/api/schedule",
-      destination: `${backendUrl}/api/schedule`,
-    },
+    routes.rewrite(
+      "/api/schedule",
+      `${deploymentEnv("BACKEND_URL")}/api/schedule`,
+    ),
   ],
 };
