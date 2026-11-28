@@ -1,6 +1,4 @@
-const API_URL = location.hostname.endsWith("vercel.app")
-  ? "https://schedule-maker-pvbr.onrender.com/api/schedule"
-  : "/api/schedule";
+const API_URL = "/api/schedule";
 const EXPORT_SHEET_WIDTH = 1920;
 const DAY_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -76,7 +74,7 @@ themeToggle.addEventListener("click", () => {
 });
 
 fileInput.addEventListener("change", () => {
-  selectedFileName.textContent = fileInput.files[0] ? "COR file selected" : "No file selected";
+  selectedFileName.textContent = fileInput.files[0]?.name || "No file selected";
 });
 
 editScheduleButton.addEventListener("click", () => {
@@ -136,7 +134,7 @@ function applyTheme(theme, persist = true) {
   themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
   themeIcon.textContent = isDark ? "☀" : "☾";
   themeLabel.textContent = isDark ? "Ang dilim" : "Nakasilaw";
-  document.querySelector('meta[name="theme-color"]').content = isDark ? "#160710" : "#fff3f8";
+  document.querySelector('meta[name="theme-color"]').content = isDark ? "#14070d" : "#fff6f9";
   if (persist) {
     try {
       localStorage.setItem("cor-schedule-theme", selectedTheme);
@@ -159,17 +157,17 @@ async function buildSchedule(file) {
     response = await fetch(API_URL, { method: "POST", body });
   } catch (error) {
     console.error("Schedule upload request failed", { url: API_URL, error });
-    showAlert(
-      `Could not reach the server. ${error?.message || "Check your connection and try again."}`,
-      "error",
-    );
+    showAlert(uploadFailureHint(file), "error");
     setLoading(false);
     return;
   }
 
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    showAlert(data.error || `Request failed (${response.status}).`, "error");
+    const message = response.status >= 500
+      ? uploadFailureHint(file, true)
+      : data.error || `Request failed (${response.status}).`;
+    showAlert(message, "error");
     setLoading(false);
     return;
   }
@@ -186,6 +184,19 @@ async function buildSchedule(file) {
   } finally {
     setLoading(false);
   }
+}
+
+function uploadFailureHint(file, serverResponded = false) {
+  const extension = file.name.split(".").pop().toLowerCase();
+  if (extension === "pdf") {
+    return serverResponded
+      ? "The server had trouble processing your PDF. Try again; if it keeps failing, upload a PNG or JPG version."
+      : "Couldn’t reach the server while uploading your PDF. Try again, or upload the COR as a PNG or JPG.";
+  }
+  const format = extension === "png" ? "PNG" : "JPG";
+  return serverResponded
+    ? `The server had trouble processing your ${format}. Check your connection and try again.`
+    : `Couldn’t reach the server while uploading your ${format}. Check your connection and try again.`;
 }
 
 function setLoading(isLoading) {
@@ -476,9 +487,10 @@ function canvasToBlob(canvas, mimeType, quality) {
   });
 }
 
-function saveBlob(blob, filename) {
+function saveBlob(blob) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
+  const filename = "sked_prmsu-chedule"
   link.href = url;
   link.download = filename;
   link.style.display = "none";

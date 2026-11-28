@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#fff3f8">
+    <meta name="theme-color" content="#fff7fa">
     <title>SKED</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='sked-simple-1') }}">
     <link rel="shortcut icon" href="{{url_for('static', filename="sked_icon.png")}}" type="image/x-icon">
     <script src="{{ url_for('static', filename='vendor/html2canvas.min.js') }}" defer></script>
     <script src="{{ url_for('static', filename='vendor/jspdf.umd.min.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='script.js', v='schedule-editor-3') }}" defer></script>
+    <script src="{{ url_for('static', filename='script.js', v='schedule-editor-4') }}" defer></script>
   </head>
   <body>
     <main class="page-shell">
@@ -17,8 +17,7 @@
         <div class="upload-heading">
           <div class="intro">
             <p class="eyebrow">Your week, at a glance</p>
-            <p>HELLO TEST</p>
-            <h1 id="page-title">SKED, at your service</h1>
+            <h1 id="page-title">SKED, <i>convert now.</i></h1>
             <p class="subtitle">Upload a Certificate of Registration to build your weekly class schedule.</p>
           </div>
           <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
@@ -117,7 +116,7 @@
             <h3>Using this schedule maker</h3>
             <p>Schedule details are read automatically from your COR and may be incomplete or incorrect. Check the generated schedule against your official registration.</p>
             <h3>Your document</h3>
-            <p>This open-source project has no database <a href="https://github.com/laudotdev/schedule-maker">view source code</a>. Your uploaded COR is processed by this app to create the schedule, and the temporary upload is deleted after processing. The app does not send it to an external service.</p>
+            <p>This open-source project has no database <a href="https://github.com/laudotdev/schedule-maker" target="_blank">view source code</a>. Your uploaded COR is processed by this app to create the schedule, and the temporary upload is deleted after processing. The app does not send it to an external service.</p>
             <h3>Privacy</h3>
             <p>Your generated schedule stays in this browser page. Your theme preference may be saved in this browser's local storage.</p>
           </div>
@@ -136,11 +135,12 @@
 
       <footer class="site-footer">
         <div class="footer-credit">
-          <p>Proper credit: President Ramon Magsaysay State University (PRMSU) for its Certificate of Registration.</p>
+          <p class="cor-credit">COR format credited to President Ramon Magsaysay State University (PRMSU).</p>
+          <p class="disclaimer"><b>Disclaimer: </b>This is Independent student project for educational purposes only. Not affiliated with or endorsed by <b>PRMSU</b>. Generated schedules are unofficial. Thank You for using SKED.</p>
           <p class="copyright">© 2026 SKED.</p>
         </div>
-        <a class="portfolio-button" href="https://laurence.laupyde.online" target="_blank" rel="noopener noreferrer">
-          Who am i? <span aria-hidden="true">↗</span>
+        <a class="about-link" href="https://laurence.laupyde.online" target="_blank" rel="noopener noreferrer">
+          Who am I? <span aria-hidden="true">↗</span>
         </a>
       </footer>
     </main>
