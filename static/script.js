@@ -1,6 +1,7 @@
 const API_URL = location.hostname.endsWith("vercel.app")
   ? "https://schedule-maker-pvbr.onrender.com/api/schedule"
   : "/api/schedule";
+const EXPORT_SHEET_WIDTH = 1920;
 const DAY_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const form = document.getElementById("upload-form");
@@ -444,9 +445,21 @@ async function captureSchedule() {
   const backgroundColor = getComputedStyle(scheduleCaptureElement).backgroundColor;
   return window.html2canvas(scheduleCaptureElement, {
     backgroundColor,
-    scale: 2,
+    scale: 1.5,
     useCORS: true,
     logging: false,
+    windowWidth: Math.max(window.innerWidth, EXPORT_SHEET_WIDTH + 64),
+    onclone: (clonedDocument) => {
+      const captureElement = clonedDocument.getElementById("schedule-capture");
+      const grid = clonedDocument.getElementById("schedule");
+      if (!captureElement || !grid) return;
+
+      captureElement.style.width = `${EXPORT_SHEET_WIDTH}px`;
+      captureElement.style.minWidth = `${EXPORT_SHEET_WIDTH}px`;
+      captureElement.style.maxWidth = "none";
+      captureElement.style.boxSizing = "border-box";
+      grid.style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+    },
   });
 }
 
@@ -463,10 +476,9 @@ function canvasToBlob(canvas, mimeType, quality) {
   });
 }
 
-function saveBlob(blob) {
+function saveBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  let filename = "sked_prmsu_schedule"
   link.href = url;
   link.download = filename;
   link.style.display = "none";
