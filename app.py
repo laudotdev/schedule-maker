@@ -22,7 +22,7 @@ def create_app():
 
         if origin in ALLOWED_ORIGINS:
             response.headers["Access-Control-Allow-Origin"] = origin
-            reponse.headers["Vary"] = "Origin"
+            response.headers["Vary"] = "Origin"
         
         return response
 
