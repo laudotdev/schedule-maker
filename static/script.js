@@ -162,7 +162,7 @@ async function buildSchedule(file) {
     renderResult(data);
     statusElement.textContent = "Schedule ready.";
   } catch {
-    showAlert("Could not reach the server. Make sure the app is running on port 5000.", "error");
+    showAlert("Could not reach the server. It may bewaking up (this can take about a minute). Try again shortly.", "error");
   } finally {
     setLoading(false);
   }
@@ -170,7 +170,7 @@ async function buildSchedule(file) {
 
 function setLoading(isLoading) {
   submitButton.disabled = isLoading;
-  submitButton.textContent = isLoading ? "Processing…" : "I-convert na 'yan";
+  submitButton.textContent = isLoading ? "Wait lang..." : "I-convert na 'yan";
 }
 
 function clearOutput() {
