@@ -1,4 +1,6 @@
-const API_URL = "https://schedule-maker-pvbr.onrender.com";
+const API_URL = location.hostname.endsWith("vercel.app")
+  ? "https://schedule-maker-pvbr.onrender.com/api/schedule"
+  : "/api/schedule";
 const DAY_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const form = document.getElementById("upload-form");
