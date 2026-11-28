@@ -26,7 +26,7 @@ SKED turns a Certificate of Registration (COR) into a weekly class schedule. Upl
 - RapidOCR with ONNX Runtime for image and scanned-PDF text recognition
 - Pillow for image loading and preparation
 - pdfplumber for extracting text from digital PDFs
-- pypdfium2 for rendering scanned PDF pages without an external Poppler install
+- pypdfium2 for rendering scanned PDF pages at 200 DPI without an external Poppler install
 - A custom Python parser for COR subject, schedule, and header data
 
 ### Frontend

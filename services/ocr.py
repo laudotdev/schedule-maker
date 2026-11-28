@@ -1,5 +1,9 @@
 from functools import lru_cache
 
+MIN_OCR_WIDTH = 1500
+MAX_OCR_WIDTH = 2000
+SCANNED_PDF_DPI = 200
+
 
 @lru_cache(maxsize=1)
 def _ocr_engine():
@@ -14,9 +18,14 @@ def _ocr_image(image):
     from PIL import Image
 
     image = image.convert("RGB")
-    if image.width < 1500:
-        scale = 1500 / image.width
-        image = image.resize((1500, int(image.height * scale)))
+    if image.width < MIN_OCR_WIDTH:
+        scale = MIN_OCR_WIDTH / image.width
+    elif image.width > MAX_OCR_WIDTH:
+        scale = MAX_OCR_WIDTH / image.width
+    else:
+        scale = 1
+    if scale != 1:
+        image = image.resize((round(image.width * scale), round(image.height * scale)))
 
     result = _ocr_engine()(image)
     return "\n".join(result.txts or ())
@@ -44,7 +53,7 @@ def _extract_pdf_text(path):
     try:
         page_text = []
         for page in document:
-            image = page.render(scale=300 / 72).to_pil()
+            image = page.render(scale=SCANNED_PDF_DPI / 72).to_pil()
             try:
                 page_text.append(_ocr_image(image))
             finally:
