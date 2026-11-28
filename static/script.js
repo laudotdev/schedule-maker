@@ -153,18 +153,35 @@ async function buildSchedule(file) {
   const body = new FormData();
   body.append("file", file);
 
+  let response;
   try {
-    const response = await fetch(API_URL, { method: "POST", body });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      showAlert(data.error || `Request failed (${response.status}).`, "error");
-      return;
-    }
+    response = await fetch(API_URL, { method: "POST", body });
+  } catch (error) {
+    console.error("Schedule upload request failed", { url: API_URL, error });
+    showAlert(
+      `Could not reach the server. ${error?.message || "Check your connection and try again."}`,
+      "error",
+    );
+    setLoading(false);
+    return;
+  }
 
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    showAlert(data.error || `Request failed (${response.status}).`, "error");
+    setLoading(false);
+    return;
+  }
+
+  try {
     renderResult(data);
     statusElement.textContent = "Schedule ready.";
-  } catch {
-    showAlert("Could not reach the server. It may bewaking up (this can take about a minute). Try again shortly.", "error");
+  } catch (error) {
+    console.error("Schedule response could not be displayed", { data, error });
+    showAlert(
+      `The server returned a schedule, but this browser could not display it. ${error?.message || ""}`.trim(),
+      "error",
+    );
   } finally {
     setLoading(false);
   }
