@@ -1,10 +1,12 @@
 import os
 import tempfile
+import time
 
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, current_app, jsonify, render_template, request
 
 from schedule_parser import build_schedule, parse_cor_text, parse_header
-from services.ocr import extract_text
+from services.memory import log_memory
+from services.ocr import UnreadableDocumentError, extract_text
 
 
 schedule = Blueprint("schedule", __name__)
@@ -29,6 +31,7 @@ def health():
 
 @schedule.post("/api/schedule")
 def make_schedule():
+    started_at = time.perf_counter()
     upload = request.files.get("file")
     if upload is None or not upload.filename:
         return jsonify(error="Send the COR as multipart form field 'file'."), 400
@@ -38,17 +41,36 @@ def make_schedule():
     if file_type is None:
         return jsonify(error="Only PNG, JPG, or PDF files are accepted."), 415
 
+    log_memory("upload_received", current_app.logger, file_type=file_type)
     with tempfile.NamedTemporaryFile(suffix=extension, delete=False) as temporary_file:
         temporary_path = temporary_file.name
 
     try:
         upload.save(temporary_path)
+        upload_size = os.path.getsize(temporary_path)
+        log_memory(
+            "before_file_extraction",
+            current_app.logger,
+            file_type=file_type,
+            upload_bytes=upload_size,
+        )
         text = extract_text(temporary_path, file_type)
-    except Exception as exc:  # OCR and PDF libraries raise several exception types.
-        return jsonify(error=f"Could not read the file: {exc}"), 422
+        log_memory("after_file_extraction", current_app.logger, file_type=file_type)
+    except UnreadableDocumentError:
+        current_app.logger.info("Rejected unreadable COR upload (type=%s)", file_type)
+        return jsonify(error="This file is invalid, damaged, or cannot be read."), 422
+    except Exception:
+        current_app.logger.exception("COR extraction failed (type=%s)", file_type)
+        return jsonify(error="The server could not process this file. Please try again."), 500
     finally:
         if os.path.exists(temporary_path):
             os.remove(temporary_path)
+        log_memory(
+            "upload_complete",
+            current_app.logger,
+            file_type=file_type,
+            elapsed_seconds=round(time.perf_counter() - started_at, 2),
+        )
 
     subjects = parse_cor_text(text)
     if not subjects:
@@ -56,8 +78,12 @@ def make_schedule():
             error="No subjects found. Try a higher-resolution image or a text-based PDF."
         ), 422
 
-    result = build_schedule(subjects)
-    student = parse_header(text)
-    student.pop("name", None)
-    result["student"] = student
-    return jsonify(result)
+    try:
+        result = build_schedule(subjects)
+        student = parse_header(text)
+        student.pop("name", None)
+        result["student"] = student
+        return jsonify(result)
+    except Exception:
+        current_app.logger.exception("Failed to build schedule from extracted COR text")
+        return jsonify(error="The server could not build a schedule from this file."), 500
