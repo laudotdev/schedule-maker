@@ -23,10 +23,10 @@ SKED turns a Certificate of Registration (COR) into a weekly class schedule. Upl
 
 - Python 3
 - Flask for the web app and JSON API
-- pytesseract with the Tesseract OCR engine for image and scanned-PDF text recognition
+- RapidOCR with ONNX Runtime for image and scanned-PDF text recognition
 - Pillow for image loading and preparation
 - pdfplumber for extracting text from digital PDFs
-- pdf2image with Poppler for converting scanned PDF pages to images
+- pypdfium2 for rendering scanned PDF pages without an external Poppler install
 - A custom Python parser for COR subject, schedule, and header data
 
 ### Frontend
@@ -41,15 +41,7 @@ There is no Node.js build step or database.
 ## Requirements
 
 - Python 3.10 or newer
-- Tesseract OCR
-- Poppler utilities for scanned PDF support
-
-On Debian or Ubuntu, install the system OCR tools with:
-
-```bash
-sudo apt update
-sudo apt install tesseract-ocr poppler-utils
-```
+- OCR and scanned-PDF rendering run through Python packages; no separate Tesseract or Poppler installation is required.
 
 Then install the Python dependencies:
 
@@ -115,6 +107,7 @@ The API accepts `.png`, `.jpg`, `.jpeg`, and `.pdf` files. It returns an error r
 - The project has no database and does not require an account.
 - The uploaded COR is written to a temporary file for processing; the route removes that file after extraction, including when processing raises an error.
 - The app processes the document locally on the server and does not send it to an external OCR service.
+- OCR models run locally in the Python service; the first OCR request may take longer while the model initializes.
 - The browser keeps the generated schedule in the page while it is open. Theme preference may be stored in the browser's local storage.
 - The schedule heading and exported filenames do not include the student's name.
 - OCR and parsing may be incomplete or incorrect. Verify the generated schedule against the official COR.
